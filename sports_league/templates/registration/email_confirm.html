@@ -1,0 +1,25 @@
+{% extends "registration/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}
+  {% translate "Confirm E-mail Address" %}
+{% endblock head_title %}
+{% block inner %}
+  <h1>{% translate "Confirm E-mail Address" %}</h1>
+  {% if confirmation %}
+    <p>
+      {% blocktranslate with confirmation.email_address.email as email %}Please confirm email <a href="mailto:{{ email }}">{{ email }}</a>{% endblocktranslate %}
+    </p>
+    <form method="post"
+          action="{% url 'account_confirm_email' confirmation.key %}">
+      {% csrf_token %}
+      <button class="btn btn-primary" type="submit">{% translate "Confirm" %}</button>
+    </form>
+  {% else %}
+    {% url 'account_email' as email_url %}
+    <p>
+      {% blocktranslate %}This e-mail confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.{% endblocktranslate %}
+    </p>
+  {% endif %}
+{% endblock inner %}
