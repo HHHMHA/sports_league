@@ -3,7 +3,7 @@ from io import StringIO
 import pytest
 from django.core.management import call_command
 
-from sports_league.users.models import User
+from sports_league.users.models import User, UserVerification
 
 
 @pytest.mark.django_db
@@ -35,6 +35,11 @@ class TestUserManager:
             password="something-r@nd0m!",
         )
         assert user.username is None
+
+    def test_pending_otp(self, user):
+        assert User.objects.pending_otp().exists() is False
+        UserVerification.generate_code(user)
+        assert User.objects.pending_otp().exists() is True
 
 
 @pytest.mark.django_db

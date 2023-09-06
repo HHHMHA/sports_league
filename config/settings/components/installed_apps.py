@@ -18,9 +18,11 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "drf_spectacular",
     "compressor",
+    "django_rq",
 ]
 
 LOCAL_APPS = [
+    "sports_league.common",
     "sports_league.users",
     # Your stuff: custom apps go here
 ]

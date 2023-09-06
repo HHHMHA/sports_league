@@ -10,6 +10,7 @@ urlpatterns = [
     path("jet/", include("jet.urls", "jet")),  # Django JET URLS
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
+    path("django-rq/", include("django_rq.urls")),
     # User management
     path("users/", include("sports_league.users.urls", namespace="users")),
     path("accounts/", include("django.contrib.auth.urls")),
