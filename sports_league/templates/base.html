@@ -29,7 +29,7 @@
       {% endcompress %}
     {% endblock css %}
     <!-- Le javascript
-    ================================================== -->
+  ================================================== -->
     {# Placed at the top of the document so pages load faster with defer #}
     {% block javascript %}
       <!-- Bootstrap JS -->
@@ -58,23 +58,32 @@
                   aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="navbar-brand" href="#">sports-league</a>
+          <a class="navbar-brand" href="{% url "home" %}">{% translate "sports-league" %}</a>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="visually-hidden">(current)</span></a>
+                {% url "home" as home_url %}
+                <a class="nav-link{% if request.path == home_url %} active{% endif %}"
+                   href="{{ home_url }}">{% translate "Home" %} <span class="visually-hidden">(current)</span></a>
               </li>
               {% if request.user.is_authenticated %}
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
+                  {% url "logout" as logout_url %}
+                  <a class="nav-link{% if request.path == logout_url %} active{% endif %}"
+                     href="{{ logout_url }}">{% translate "Sign Out" %}</a>
                 </li>
               {% else %}
+                {% url "users:register" as register_url %}
                 <li class="nav-item">
-                  <a id="sign-up-link" class="nav-link" href="#">{% translate "Sign Up" %}</a>
-                  {#                    <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>#}
+                  <a id="sign-up-link"
+                     class="nav-link{% if request.path == register_url %} active{% endif %}"
+                     href="{{ register_url }}">{% translate "Sign Up" %}</a>
                 </li>
                 <li class="nav-item">
-                  <a id="log-in-link" class="nav-link" href="{% url 'login' %}">{% translate "Sign In" %}</a>
+                  {% url "login" as login_url %}
+                  <a id="log-in-link"
+                     class="nav-link{% if request.path == login_url %} active{% endif %}"
+                     href="{{ login_url }}">{% translate "Sign In" %}</a>
                 </li>
               {% endif %}
             </ul>

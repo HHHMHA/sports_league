@@ -2,6 +2,7 @@
 from .components import *  # noqa
 from .components.authentication import *  # noqa
 from .components.base import *  # noqa
+from .components.crispy import *  # noqa
 from .components.databases import *  # noqa
 from .components.email import *  # noqa
 from .components.installed_apps import *  # noqa

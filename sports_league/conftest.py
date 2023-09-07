@@ -19,6 +19,8 @@ def user(db) -> User:
 
 @pytest.fixture
 def email_template(db) -> EmailTemplate:
+    # Clear templates made by migrations
+    EmailTemplate.objects.all().delete()
     return mixer.blend(EmailTemplate, code="verify_user_sms_email", template=r"Your code is {{ code }}")
 
 

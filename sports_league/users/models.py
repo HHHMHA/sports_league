@@ -114,3 +114,11 @@ class UserVerification(TimeStampedModel):
     @property
     def can_resend(self):
         return (now() - self.modified) >= self.DELAY_BETWEEN_RESEND
+
+    @classmethod
+    def check_code(cls, user, code):
+        try:
+            cls.objects.get(user=user, code=code)
+            return True
+        except cls.DoesNotExist:
+            return False

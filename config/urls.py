@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from django.views import defaults as default_views
+from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 
@@ -12,6 +13,7 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     path("django-rq/", include("django_rq.urls")),
     # User management
+    path("", TemplateView.as_view(template_name="home.html"), name="home"),
     path("users/", include("sports_league.users.urls", namespace="users")),
     path("accounts/", include("django.contrib.auth.urls")),
     # Your stuff: custom urls includes go here

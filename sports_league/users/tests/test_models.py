@@ -54,6 +54,17 @@ class TestUserVerification:
             obj.refresh_from_db()
             assert obj.is_verified is False
 
+    def test_check_code(self, user):
+        obj = UserVerification.generate_code(user)
+        assert UserVerification.check_code(user, obj.code) is True
+        user.refresh_from_db()
+        assert user.is_active is False
+        obj.refresh_from_db()
+        assert obj.is_verified is False
+
+    def test_check_code__not_found(self, user):
+        assert UserVerification.check_code(user, "123456") is False
+
     def test_can_resend__false(self, user):
         with patch.object(UserVerificationNotifier, "send_verification_code_notification"):
             obj = UserVerification.generate_code(user)

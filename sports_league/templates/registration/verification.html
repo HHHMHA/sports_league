@@ -3,11 +3,14 @@
 {% load i18n crispy_forms_filters %}
 
 {% block head_title %}
-  {% translate "Sign In" %}
+  {% translate "Verify Your E-mail Address" %}
 {% endblock head_title %}
 {% block inner %}
-  <h1>{% translate "Sign In" %}</h1>
-  <form class="login" method="post" action="{% url 'login' %}">
+  <h1>{% translate "Verify Your E-mail Address" %}</h1>
+  <p>
+    {% blocktranslate %}We have sent an e-mail to you for verification. Please enter otp code in email{% endblocktranslate %}
+  </p>
+  <form method="post" action="{% url 'users:verification' %}">
     {% csrf_token %}
     {{ form|crispy }}
     {% if redirect_field_value %}
@@ -15,8 +18,6 @@
              name="{{ redirect_field_name }}"
              value="{{ redirect_field_value }}" />
     {% endif %}
-    <a class="button secondaryAction"
-       href="{% url 'users:reset_password' %}">{% translate "Forgot Password?" %}</a>
-    <button class="primaryAction btn btn-primary" type="submit">{% translate "Sign In" %}</button>
+    <button class="btn btn-primary" type="submit">{% translate "Verify" %} »</button>
   </form>
 {% endblock inner %}

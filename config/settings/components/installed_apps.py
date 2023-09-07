@@ -16,6 +16,8 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "corsheaders",
+    "crispy_forms",
+    "crispy_bootstrap5",
     "drf_spectacular",
     "compressor",
     "django_rq",
