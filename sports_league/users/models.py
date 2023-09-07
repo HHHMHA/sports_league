@@ -44,9 +44,10 @@ class User(AbstractUser):
 
 class UserVerification(TimeStampedModel):
     DELAY_BETWEEN_RESEND = timedelta(seconds=60)  # For resending
+    CODE_LENGTH = 6
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="verification")
-    code = models.CharField(max_length=6)
+    code = models.CharField(max_length=CODE_LENGTH)
     is_verified = models.BooleanField(
         default=False,
     )
@@ -62,7 +63,7 @@ class UserVerification(TimeStampedModel):
     def get_random_number() -> str:
         """generate 6 digit random number"""
 
-        return get_random_string(length=6, allowed_chars=string.digits)
+        return get_random_string(length=UserVerification.CODE_LENGTH, allowed_chars=string.digits)
 
     @classmethod
     def generate_code(cls, user):
