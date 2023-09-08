@@ -21,6 +21,7 @@ THIRD_PARTY_APPS = [
     "drf_spectacular",
     "compressor",
     "django_rq",
+    "import_export",
 ]
 
 LOCAL_APPS = [

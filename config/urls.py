@@ -15,6 +15,7 @@ urlpatterns = [
     # User management
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
     path("users/", include("sports_league.users.urls", namespace="users")),
+    path("", include("sports_league.sports.urls", namespace="sports")),
     path("accounts/", include("django.contrib.auth.urls")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

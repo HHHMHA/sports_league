@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.functional import cached_property
 from django_extensions.db.models import TimeStampedModel
 
+from sports_league.sports.strategy import Selector
+
 
 class Team(TimeStampedModel):
     name = models.CharField(max_length=255, unique=True)
@@ -41,6 +43,24 @@ class Team(TimeStampedModel):
     @cached_property
     def games(self):
         return self.home_games.all() | self.away_games.all()
+
+    def points(self, request=None):
+        return Selector().strategy(request=request).calculate_points(self)
+
+    @classmethod
+    def ranks(cls, request=None):
+        result = [{"team": team, "points": team.points(request)} for team in cls.objects.all()]
+        result.sort(key=lambda team_dict: (-team_dict["points"], team_dict["team"].name))
+
+        rank = 0
+        previous_points = None
+        for team_dict in result:
+            if team_dict["points"] != previous_points:
+                rank += 1
+            team_dict["rank"] = rank
+            previous_points = team_dict["points"]
+
+        return result
 
 
 class Game(TimeStampedModel):

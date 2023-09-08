@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load i18n static %}
+
+{% block title %}
+  {% translate "Ranks" %}
+{% endblock title %}
+{% block extra_js %}
+  <script defer src="{% static 'js/ranks.js' %}"></script>
+{% endblock extra_js %}
+{% block content %}
+  <h1>{% translate "Ranks" %}</h1>
+  {% csrf_token %}
+  <select id="strategy-filter" class="form-control mb-3">
+    {% for code, strategy in strategies.items %}<option value="{{ code }}">{{ strategy.name }}</option>{% endfor %}
+  </select>
+  <table id="ranks-table" class="display">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Team</th>
+        <th>Points</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Team A</td>
+        <td>10</td>
+      </tr>
+    </tbody>
+  </table>
+{% endblock content %}

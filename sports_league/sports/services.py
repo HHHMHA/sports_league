@@ -1,6 +1,9 @@
+import tablib
+from django.core.files import File
 from django.db import transaction
 
 from .models import Game, Team
+from .resources import GameResource
 
 
 class GameService:
@@ -71,3 +74,33 @@ class GameService:
 
         home_team.save()
         away_team.save()
+
+    @classmethod
+    def import_games_from_csv(cls, file: File):
+        try:
+            dataset = tablib.Dataset().load(
+                file.read().decode("utf-8"),
+                format="csv",
+                delimiter=",",
+                headers=False,
+            )
+            dataset.headers = [
+                "home_team",
+                "home_team_score",
+                "away_team",
+                "away_team_score",
+            ]
+            dataset.insert_col(0, col=lambda x: "", header="id")
+        except Exception:
+            return False
+
+        return cls.import_games(dataset)
+
+    @classmethod
+    def import_games(cls, dataset: tablib.Dataset):
+        resource = GameResource()
+        try:
+            resource.import_data(dataset, dry_run=False, raise_errors=True)
+            return True
+        except Exception:
+            return False

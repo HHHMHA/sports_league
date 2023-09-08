@@ -18,6 +18,8 @@
     {% block css %}
       <!-- Latest compiled and minified Bootstrap CSS -->
       <link rel="stylesheet"
+            href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+      <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
             integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
             crossorigin="anonymous"
@@ -34,14 +36,20 @@
     {% block javascript %}
       <!-- Bootstrap JS -->
       <script defer
-              src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
+              src="https://code.jquery.com/jquery-3.7.1.min.js"
+              integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+              crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
               integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
               crossorigin="anonymous"
               referrerpolicy="no-referrer"></script>
+      <script defer src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
       <!-- Your stuff: Third-party javascript libraries go here -->
       <!-- place project specific Javascript in this file -->
       {% compress js %}
         <script defer src="{% static 'js/project.js' %}"></script>
+        {% block extra_js %}
+        {% endblock extra_js %}
       {% endcompress %}
     {% endblock javascript %}
   </head>
@@ -72,6 +80,12 @@
                   <a class="nav-link{% if request.path == logout_url %} active{% endif %}"
                      href="{{ logout_url }}">{% translate "Sign Out" %}</a>
                 </li>
+                <li class="nav-item">
+                  {% url "sports:games" as games_url %}
+                  <a id="log-in-link"
+                     class="nav-link{% if request.path == games_url %} active{% endif %}"
+                     href="{{ games_url }}">{% translate "Games" %}</a>
+                </li>
               {% else %}
                 {% url "users:register" as register_url %}
                 <li class="nav-item">
@@ -86,6 +100,14 @@
                      href="{{ login_url }}">{% translate "Sign In" %}</a>
                 </li>
               {% endif %}
+              <li class="nav-item">
+                {% url "sports:ranks" as ranks_url %}
+                <a id="log-in-link"
+                   class="nav-link{% if request.path == ranks_url %} active{% endif %}"
+                   href="{{ ranks_url }}">{% translate "Ranks" %}</a>
+              </li>
+              {% block extra_nav %}
+              {% endblock extra_nav %}
             </ul>
           </div>
         </div>
@@ -122,4 +144,9 @@
       {% endcomment %}
     {% endblock inline_javascript %}
   </body>
+  <script>
+    const gameListUrl = "{% url 'api:game-list' %}";
+    const gameDetailUrl = "{% url 'api:game-detail' 0 %}";
+    const ranksUrl = "{% url 'api:team-ranks' %}";
+  </script>
 </html>

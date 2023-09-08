@@ -10,6 +10,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\sports_league\static\test_resources\data.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
       </map>
     </option>
   </component>
