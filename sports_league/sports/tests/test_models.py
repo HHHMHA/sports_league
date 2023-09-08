@@ -57,3 +57,40 @@ class TestGame:
         assert game1.is_loser(team2)
         assert game2.is_loser(team1)
         assert not game2.is_loser(team2)
+
+    def test_points(self):
+        team1 = Team.objects.create(name="Team A")
+        team1.wins = 3
+        team1.loses = 2
+        team1.draws = 1
+        team1.games_count = 1
+        team1.save()
+        assert team1.points() == 10
+
+    def test_ranks(self):
+        team1 = Team.objects.create(name="Team C")
+        team1.wins = 3
+        team1.loses = 2
+        team1.draws = 1
+        team1.games_count = 1
+        team1.save()
+
+        team2 = Team.objects.create(name="Team B")
+        team2.wins = 1
+        team2.loses = 2
+        team2.draws = 3
+        team2.games_count = 1
+        team2.save()
+
+        team3 = Team.objects.create(name="Team A")
+        team3.wins = 3
+        team3.loses = 2
+        team3.draws = 1
+        team3.games_count = 1
+        team3.save()
+        # Ensure order by name too
+        assert Team.ranks() == [
+            {"points": 10, "team": team3, "rank": 1},
+            {"points": 10, "team": team1, "rank": 1},
+            {"points": 6, "team": team2, "rank": 2},
+        ]
