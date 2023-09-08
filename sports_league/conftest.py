@@ -46,3 +46,9 @@ def game_dataset():
     dataset.headers = ["id", "home_team", "home_team_score", "away_team", "away_team_score"]
     dataset.append(["", "Team A", 2, "Team B", 1])
     return dataset
+
+
+@pytest.fixture
+def auth_client(client, user):
+    client.force_login(user)
+    return client
