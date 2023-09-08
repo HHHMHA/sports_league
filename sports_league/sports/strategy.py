@@ -1,4 +1,5 @@
 # Inspired by django oscar strategy for pricing
+import copy
 
 from django.utils.translation import gettext_lazy as _
 
@@ -15,7 +16,7 @@ class Selector:
 
     @property
     def strategies(self):
-        return Base.strategies.copy()
+        return copy.deepcopy(Base.strategies)
 
     def strategy(self, request=None, user=None, **kwargs):
         """
@@ -79,4 +80,6 @@ class WinsRatio(Base):
     code = "wins_ratio"
 
     def calculate_points(self, team) -> int:
+        if team.games_count == 0:
+            return 0
         return int(round(team.wins / team.games_count))

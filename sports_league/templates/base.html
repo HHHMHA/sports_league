@@ -80,6 +80,12 @@
                   <a class="nav-link{% if request.path == logout_url %} active{% endif %}"
                      href="{{ logout_url }}">{% translate "Sign Out" %}</a>
                 </li>
+                <li class="nav-item">
+                  {% url "sports:games" as games_url %}
+                  <a id="log-in-link"
+                     class="nav-link{% if request.path == games_url %} active{% endif %}"
+                     href="{{ games_url }}">{% translate "Games" %}</a>
+                </li>
               {% else %}
                 {% url "users:register" as register_url %}
                 <li class="nav-item">
@@ -95,12 +101,13 @@
                 </li>
               {% endif %}
               <li class="nav-item">
-                {% url "sports:games" as games_url %}
+                {% url "sports:ranks" as ranks_url %}
                 <a id="log-in-link"
-                   class="nav-link{% if request.path == games_url %} active{% endif %}"
-                   href="{{ games_url }}">{% translate "Games" %}</a>
+                   class="nav-link{% if request.path == ranks_url %} active{% endif %}"
+                   href="{{ ranks_url }}">{% translate "Ranks" %}</a>
               </li>
-              {% block extra_nav %}{% endblock %}
+              {% block extra_nav %}
+              {% endblock extra_nav %}
             </ul>
           </div>
         </div>
@@ -140,5 +147,6 @@
   <script>
     const gameListUrl = "{% url 'api:game-list' %}";
     const gameDetailUrl = "{% url 'api:game-detail' 0 %}";
+    const ranksUrl = "{% url 'api:team-ranks' %}";
   </script>
 </html>

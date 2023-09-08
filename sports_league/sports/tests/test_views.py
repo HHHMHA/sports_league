@@ -20,3 +20,11 @@ class TestGameViews:
             response = auth_client.post(url, data)
             assert status.is_redirect(response.status_code)
             mock.assert_called_once()
+
+
+@pytest.mark.django_db
+class TestTeamViews:
+    def test_ranks_view(self, client, game_csv):
+        url = reverse("sports:ranks")
+        response = client.get(url)
+        assert status.is_success(response.status_code)

@@ -50,3 +50,7 @@ class TestStrategies:
 
         team_a.refresh_from_db()
         assert WinsRatio().calculate_points(team_a) == 1
+
+    def test_wins_ratio__zero_error(self):
+        team_a = Team.objects.create(name="Team A")
+        assert WinsRatio().calculate_points(team_a) == 0
