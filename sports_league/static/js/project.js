@@ -1,1 +1,1 @@
-/* Project specific Javascript goes here. */
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
