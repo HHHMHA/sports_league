@@ -25,6 +25,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "sports_league.common",
+    "sports_league.sports",
     "sports_league.users",
     # Your stuff: custom apps go here
 ]
