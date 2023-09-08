@@ -37,7 +37,6 @@ class TestGameViews:
         assert response.status_code == status.HTTP_201_CREATED
         assert Game.objects.count() == 1
 
-    @pytest.mark.django_db
     def test_update_game(self, api_auth_client):
         team1 = Team.objects.create(name="Team A")
         team2 = Team.objects.create(name="Team B")
@@ -66,7 +65,6 @@ class TestGameViews:
         assert game.away_team.draws == 0
         assert game.away_team.games_count == 1
 
-    @pytest.mark.django_db
     def test_update_game__cant_update_names(self, api_auth_client):
         team1 = Team.objects.create(name="Team A")
         team2 = Team.objects.create(name="Team B")
@@ -89,7 +87,6 @@ class TestGameViews:
         assert game.home_team.name == "Team A"
         assert game.away_team.name == "Team B"
 
-    @pytest.mark.django_db
     def test_delete_game(self, api_auth_client):
         team1 = Team.objects.create(name="Team A")
         team2 = Team.objects.create(name="Team B")
