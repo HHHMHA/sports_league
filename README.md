@@ -13,6 +13,10 @@ License: MIT
 
 Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
 
+An example .env.dist is provided
+
+You can create an override.py in settings/environment which will override any setting
+
 ## Basic Commands
 
 ### Setting Up Your Users
