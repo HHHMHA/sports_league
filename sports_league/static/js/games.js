@@ -43,7 +43,11 @@ const table = $('#games-table').DataTable({
 
 $('#update-btn').on('click', function (e) {
     e.preventDefault();
-
+    const row = table.row('.selected');
+    if (!row.any()) {
+        toastr.error("Please select a row first");
+        return;
+    }
     const data = $('#games-table .selected input').serialize();
 
     const id = $('#games-table .selected .id-field').text();
@@ -66,6 +70,11 @@ $('#update-btn').on('click', function (e) {
 $('#add-btn').on('click', function (e) {
     e.preventDefault();
 
+    const form = document.getElementById("add-game-form");
+    if (!form.reportValidity()) {
+        return;
+    }
+
     const data = $('#add-game-form').serialize();
 
     $.ajax({
@@ -79,6 +88,13 @@ $('#add-btn').on('click', function (e) {
             table.ajax.reload();
         },
         error: function (xhr, textStatus, errorThrown) {
+            if (xhr.responseJSON){
+                if (xhr.responseJSON.non_field_errors) {
+                    toastr.error(xhr.responseJSON.non_field_errors[0]);
+                    return;
+                }
+            }
+            toastr.error("Unknown error");
         }
     });
 });
@@ -96,22 +112,24 @@ table.on('click', 'tbody tr', (e) => {
 
 document.querySelector('#remove-btn').addEventListener('click', function () {
     const row = table.row('.selected');
-    if (row.any()) {
-        const rowData = row.data();
-        const id = rowData["id"];
-        $.ajax({
-            url: gameDetailUrl.replace("0", id),
-            method: 'DELETE',
-            headers: {
-                'X-CSRFToken': csrftoken, // Include the CSRF token in the headers
-            },
-            success: function (response) {
-                // Remove the row from the DataTables table
-                row.remove().draw(false);
-                table.ajax.reload();
-            },
-            error: function (xhr, textStatus, errorThrown) {
-            }
-        });
+    if (!row.any()) {
+        toastr.error("Please select a row first");
+        return;
     }
+    const rowData = row.data();
+    const id = rowData["id"];
+    $.ajax({
+        url: gameDetailUrl.replace("0", id),
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': csrftoken, // Include the CSRF token in the headers
+        },
+        success: function (response) {
+            // Remove the row from the DataTables table
+            row.remove().draw(false);
+            table.ajax.reload();
+        },
+        error: function (xhr, textStatus, errorThrown) {
+        }
+    });
 });

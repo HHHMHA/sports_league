@@ -24,6 +24,11 @@
             integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
             crossorigin="anonymous"
             referrerpolicy="no-referrer" />
+      <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+            integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
       <!-- Your stuff: Third-party CSS libraries go here -->
       <!-- This file stores project-specific CSS -->
       {% compress css %}
@@ -31,7 +36,7 @@
       {% endcompress %}
     {% endblock css %}
     <!-- Le javascript
-  ================================================== -->
+================================================== -->
     {# Placed at the top of the document so pages load faster with defer #}
     {% block javascript %}
       <!-- Bootstrap JS -->
@@ -44,6 +49,11 @@
               crossorigin="anonymous"
               referrerpolicy="no-referrer"></script>
       <script defer src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+      <script defer
+              src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+              integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"></script>
       <!-- Your stuff: Third-party javascript libraries go here -->
       <!-- place project specific Javascript in this file -->
       {% compress js %}
@@ -80,12 +90,6 @@
                   <a class="nav-link{% if request.path == logout_url %} active{% endif %}"
                      href="{{ logout_url }}">{% translate "Sign Out" %}</a>
                 </li>
-                <li class="nav-item">
-                  {% url "sports:games" as games_url %}
-                  <a id="log-in-link"
-                     class="nav-link{% if request.path == games_url %} active{% endif %}"
-                     href="{{ games_url }}">{% translate "Games" %}</a>
-                </li>
               {% else %}
                 {% url "users:register" as register_url %}
                 <li class="nav-item">
@@ -100,6 +104,12 @@
                      href="{{ login_url }}">{% translate "Sign In" %}</a>
                 </li>
               {% endif %}
+              <li class="nav-item">
+                {% url "sports:games" as games_url %}
+                <a id="log-in-link"
+                   class="nav-link{% if request.path == games_url %} active{% endif %}"
+                   href="{{ games_url }}">{% translate "Games" %}</a>
+              </li>
               <li class="nav-item">
                 {% url "sports:ranks" as ranks_url %}
                 <a id="log-in-link"
