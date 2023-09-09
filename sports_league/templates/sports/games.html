@@ -19,27 +19,29 @@
 {% block content %}
   <h1>{% translate "Games" %}</h1>
   {% csrf_token %}
-  <div class="mb-3">
-    <form id="add-game-form" method="post">
-      <div class="form-group">
-        <label for="homeTeam">Home Team:</label>
-        <input type="text" class="form-control" name="home_team" required />
-      </div>
-      <div class="form-group">
-        <label for="homeScore">Home Team Score:</label>
-        <input type="number" class="form-control" name="home_team_score" required />
-      </div>
-      <div class="form-group">
-        <label for="awayTeam">Away Team:</label>
-        <input type="text" class="form-control" name="away_team" required />
-      </div>
-      <div class="form-group">
-        <label for="awayScore">Away Team Score:</label>
-        <input type="number" class="form-control" name="away_team_score" required />
-      </div>
-      <button id="add-btn" type="submit" class="btn btn-primary mt-3">Add Game</button>
-    </form>
-  </div>
+  {% if request.user.is_authenticated %}
+    <div class="mb-3">
+      <form id="add-game-form" method="post">
+        <div class="form-group">
+          <label for="homeTeam">Home Team:</label>
+          <input type="text" class="form-control" name="home_team" required />
+        </div>
+        <div class="form-group">
+          <label for="homeScore">Home Team Score:</label>
+          <input type="number" class="form-control" name="home_team_score" required />
+        </div>
+        <div class="form-group">
+          <label for="awayTeam">Away Team:</label>
+          <input type="text" class="form-control" name="away_team" required />
+        </div>
+        <div class="form-group">
+          <label for="awayScore">Away Team Score:</label>
+          <input type="number" class="form-control" name="away_team_score" required />
+        </div>
+        <button id="add-btn" type="submit" class="btn btn-primary mt-3">Add Game</button>
+      </form>
+    </div>
+  {% endif %}
   <table id="games-table" class="display">
     <thead>
       <tr>
@@ -75,8 +77,10 @@
       </tr>
     </tbody>
   </table>
-  <div class="mb-3 text-center">
-    <button id="remove-btn" class="btn btn-danger">Delete Game</button>
-    <button id="update-btn" class="btn btn-success">Update Game</button>
-  </div>
+  {% if request.user.is_authenticated %}
+    <div class="mb-3 text-center">
+      <button id="remove-btn" class="btn btn-danger">Delete Game</button>
+      <button id="update-btn" class="btn btn-success">Update Game</button>
+    </div>
+  {% endif %}
 {% endblock content %}

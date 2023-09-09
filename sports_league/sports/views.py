@@ -8,8 +8,7 @@ from .forms import ImportGamesForm
 from .strategy import Selector
 
 
-class GamesView(PermissionClassesMixin, TemplateView):
-    permission_classes = [IsAuthenticated]
+class GamesView(TemplateView):
     template_name = "sports/games.html"
 
 
