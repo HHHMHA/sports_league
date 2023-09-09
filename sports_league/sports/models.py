@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.functional import cached_property
 from django_extensions.db.models import TimeStampedModel
 
-from sports_league.sports.strategy import Selector
+from .strategy import Selector
 
 
 class Team(TimeStampedModel):
@@ -44,11 +44,11 @@ class Team(TimeStampedModel):
     def games(self):
         return self.home_games.all() | self.away_games.all()
 
-    def points(self, request=None):
+    def points(self, request=None) -> int:
         return Selector().strategy(request=request).calculate_points(self)
 
     @classmethod
-    def ranks(cls, request=None):
+    def ranks(cls, request=None) -> list[dict]:
         result = [{"team": team, "points": team.points(request)} for team in cls.objects.all()]
         result.sort(key=lambda team_dict: (-team_dict["points"], team_dict["team"].name))
 
@@ -73,17 +73,17 @@ class Game(TimeStampedModel):
         return f"{self.home_team} with {self.home_team_score}--{self.away_team} with {self.away_team_score}"
 
     @property
-    def is_draw(self):
+    def is_draw(self) -> bool:
         return self.away_team_score == self.home_team_score
 
-    def is_winner(self, team):
+    def is_winner(self, team: Team) -> bool:
         return self.winner_team == team
 
-    def is_loser(self, team):
+    def is_loser(self, team: Team) -> bool:
         return self.loser_team == team
 
     @property
-    def winner_team(self):
+    def winner_team(self) -> Team | None:
         if self.is_draw:
             return None
 
@@ -93,7 +93,7 @@ class Game(TimeStampedModel):
         return self.away_team
 
     @property
-    def loser_team(self):
+    def loser_team(self) -> Team | None:
         if self.is_draw:
             return None
 

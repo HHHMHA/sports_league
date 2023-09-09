@@ -56,8 +56,8 @@ class UserVerification(TimeStampedModel):
         return self.code
 
     class Meta:
-        verbose_name = "User Verification (OTP Code)"
-        verbose_name_plural = "User Verifications (OTP Codes)"
+        verbose_name = _("User Verification (OTP Code)")
+        verbose_name_plural = _("User Verifications (OTP Codes)")
 
     @staticmethod
     def get_random_number() -> str:
@@ -66,7 +66,7 @@ class UserVerification(TimeStampedModel):
         return get_random_string(length=UserVerification.CODE_LENGTH, allowed_chars=string.digits)
 
     @classmethod
-    def generate_code(cls, user):
+    def generate_code(cls, user: User) -> "UserVerification":
         """
         generate verification code for given user and mark as pending otp
         """
@@ -84,7 +84,7 @@ class UserVerification(TimeStampedModel):
         return obj
 
     @property
-    def notifier(self):
+    def notifier(self) -> UserVerificationNotifier:
         """
         :return: Notifier instance for this model
         """
@@ -103,7 +103,7 @@ class UserVerification(TimeStampedModel):
         self.save()
 
     @classmethod
-    def verify_user(cls, user, code) -> bool:
+    def verify_user(cls, user: User, code: str) -> bool:
         try:
             obj = cls.objects.get(user=user, code=code)
             obj.set_verified()
@@ -112,11 +112,11 @@ class UserVerification(TimeStampedModel):
             return False
 
     @property
-    def can_resend(self):
+    def can_resend(self) -> bool:
         return (now() - self.modified) >= self.DELAY_BETWEEN_RESEND
 
     @classmethod
-    def check_code(cls, user, code):
+    def check_code(cls, user: User, code: str) -> bool:
         try:
             cls.objects.get(user=user, code=code)
             return True
