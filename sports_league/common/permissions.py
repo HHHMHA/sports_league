@@ -9,7 +9,7 @@ class PermissionClassesMixin(UserPassesTestMixin):
     permission_classes: list[BasePermission.__class__] = []
     default_permission_denied_message = _("Permission Denied")
 
-    def test_func(self) -> bool | None:
+    def test_func(self) -> bool:
         for permission_class in self.permission_classes:
             permission = permission_class()
             if not permission.has_permission(self.request, self):
@@ -26,12 +26,12 @@ class IsAnonymous(BasePermission):
 
     message = _("You must logout to see this page")
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view) -> bool:
         return bool(request.user and request.user.is_anonymous)
 
 
 class UserInSession(BasePermission):
     message = _("Please follow correct flow")
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view) -> bool:
         return "user" in request.session

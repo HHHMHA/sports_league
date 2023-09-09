@@ -30,11 +30,11 @@ class BaseNotifier:
         if self.PUSH in self.options:
             self._dispatch_push_notifications(notification_type)
 
-    def _dispatch_sms(self, notification_type):
+    def _dispatch_sms(self, notification_type: BaseNotificationType):
         # Not needed
         pass
 
-    def _dispatch_email(self, notification_type):
+    def _dispatch_email(self, notification_type: BaseNotificationType):
         slug = notification_type.email_slug
         request = notification_type.request
         email = notification_type.get_email()
@@ -42,13 +42,13 @@ class BaseNotifier:
         context = notification_type.get_context()
         send_email(slug, request, email, language, context)
 
-    def _dispatch_push_notifications(self, notification_type):
+    def _dispatch_push_notifications(self, notification_type: BaseNotificationType):
         # Not needed
         pass
 
 
 @job
-def send_email_in_bg(slug, recipient, context, language, **kwargs):
+def send_email_in_bg(slug, recipient: str, context: dict, language: str, **kwargs):
     # if we need to use a package for email we can just change this now
     logger.info(f"sending email to {recipient}")
 
@@ -63,7 +63,7 @@ def send_email_in_bg(slug, recipient, context, language, **kwargs):
     logger.info(f"email send process completed {recipient}")
 
 
-def send_email(slug, request, recipient, language, context):
+def send_email(slug, request, recipient: str, language: str, context: dict):
     function = send_email_in_bg
     if settings.ASYNC_NOTIFICATIONS:
         function = send_email_in_bg.delay

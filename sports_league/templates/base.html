@@ -106,14 +106,12 @@
               {% endif %}
               <li class="nav-item">
                 {% url "sports:games" as games_url %}
-                <a id="log-in-link"
-                   class="nav-link{% if request.path == games_url %} active{% endif %}"
+                <a class="nav-link{% if request.path == games_url %} active{% endif %}"
                    href="{{ games_url }}">{% translate "Games" %}</a>
               </li>
               <li class="nav-item">
                 {% url "sports:ranks" as ranks_url %}
-                <a id="log-in-link"
-                   class="nav-link{% if request.path == ranks_url %} active{% endif %}"
+                <a class="nav-link{% if request.path == ranks_url %} active{% endif %}"
                    href="{{ ranks_url }}">{% translate "Ranks" %}</a>
               </li>
               {% block extra_nav %}

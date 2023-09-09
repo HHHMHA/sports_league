@@ -11,8 +11,7 @@
 {% block extra_nav %}
   <li class="nav-item">
     {% url "sports:import_games" as import_games_url %}
-    <a id="log-in-link"
-       class="nav-link{% if request.path == import_games_url %} active{% endif %}"
+    <a class="nav-link{% if request.path == import_games_url %} active{% endif %}"
        href="{{ import_games_url }}">{% translate "Import" %}</a>
   </li>
 {% endblock extra_nav %}

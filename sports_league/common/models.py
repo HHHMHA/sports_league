@@ -1,6 +1,7 @@
 from django.db import models
 from django.template import Context, Template
 from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 
 
@@ -10,8 +11,8 @@ class EmailTemplate(TimeStampedModel):
     template = models.TextField(null=False, blank=True)
 
     class Meta:
-        verbose_name = "Email Template"
-        verbose_name_plural = "Email Templates"
+        verbose_name = _("Email Template")
+        verbose_name_plural = _("Email Templates")
 
     def __str__(self):
         return self.code

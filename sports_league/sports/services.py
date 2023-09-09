@@ -43,7 +43,7 @@ class GameService:
             game.delete()
 
     @classmethod
-    def update_team_statistics(cls, game, delete=False):
+    def update_team_statistics(cls, game: Game, delete: bool = False):
         home_team = game.home_team
         away_team = game.away_team
 

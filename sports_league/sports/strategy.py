@@ -15,10 +15,10 @@ class Selector:
     """
 
     @property
-    def strategies(self):
+    def strategies(self) -> dict:
         return copy.deepcopy(Base.strategies)
 
-    def strategy(self, request=None, user=None, **kwargs):
+    def strategy(self, request=None, user=None, **kwargs) -> "Base":
         """
         Return an instantiated strategy instance
         """
