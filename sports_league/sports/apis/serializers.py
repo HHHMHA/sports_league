@@ -28,7 +28,7 @@ class GameSerializer(serializers.ModelSerializer):
     )
 
     def validate(self, attrs):
-        if attrs["home_team"] == attrs["away_team"]:
+        if attrs.get("home_team") and attrs.get("away_team") and attrs["home_team"] == attrs["away_team"]:
             raise serializers.ValidationError(_("Teams must be different"))
         return attrs
 
